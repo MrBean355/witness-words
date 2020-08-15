@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             go.isEnabled = it
         }
         viewModel.results.observe(this) {
+            result_count.text = resources.getQuantityString(R.plurals.result_count, it.size, it.size)
             adapter.submitList(it)
         }
 
