@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class WordAdapter : ListAdapter<String, WordAdapter.ViewHolder>(DiffCallback()) {
+class WordAdapter(
+        private val onWordClicked: (String) -> Unit
+) : ListAdapter<String, WordAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -17,6 +19,9 @@ class WordAdapter : ListAdapter<String, WordAdapter.ViewHolder>(DiffCallback()) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.text.text = getItem(position)
+        holder.itemView.setOnClickListener {
+            onWordClicked(getItem(holder.adapterPosition))
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

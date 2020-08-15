@@ -5,8 +5,11 @@ import kotlinx.coroutines.withContext
 import net.sf.extjwnl.data.POS
 import net.sf.extjwnl.dictionary.Dictionary
 
+val dictionary: Dictionary by lazy {
+    Dictionary.getDefaultResourceInstance()
+}
+
 private val words: Collection<String> by lazy {
-    val dictionary = Dictionary.getDefaultResourceInstance()
     POS.getAllPOS()
             .flatMap { dictionary.getIndexWordIterator(it).asSequence().toList() }
             .map { it.lemma }
@@ -23,6 +26,7 @@ suspend fun searchWords(input: String): List<String> = withContext(IO) {
     words.asSequence()
             .filter { it.length >= 4 }
             .filter { word -> word.all { it in input } }
+            .filter { it.contains(input.first()) }
             .filter { word ->
                 val wc = word.countChars()
                 for (entry in wc) {
@@ -32,9 +36,20 @@ suspend fun searchWords(input: String): List<String> = withContext(IO) {
                 }
                 true
             }
-            .filter { it.contains(input.first()) }
             .sorted()
+            .map {
+                if (it.length == 9) it.toUpperCase() else it
+            }
             .toList()
+}
+
+suspend fun getDefinitions(word: String): List<Definition> = withContext(IO) {
+    dictionary.lookupAllIndexWords(word).indexWordArray.map { indexWord ->
+        Definition(
+                type = indexWord.pos.label,
+                detail = indexWord.senses.joinToString("\n\n") { it.gloss }
+        )
+    }
 }
 
 private fun String.countChars(): Map<Char, Int> {
