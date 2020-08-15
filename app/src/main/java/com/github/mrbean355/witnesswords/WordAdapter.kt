@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_word.view.*
 
 class WordAdapter(
         private val onWordClicked: (String) -> Unit
@@ -14,18 +15,18 @@ class WordAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater.inflate(android.R.layout.simple_list_item_1, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.item_word, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.text.text = getItem(position)
+        holder.word.text = getItem(position)
         holder.itemView.setOnClickListener {
             onWordClicked(getItem(holder.adapterPosition))
         }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text: TextView = itemView.findViewById(android.R.id.text1)
+        val word: TextView = itemView.word
     }
 
     class DiffCallback : DiffUtil.ItemCallback<String>() {
