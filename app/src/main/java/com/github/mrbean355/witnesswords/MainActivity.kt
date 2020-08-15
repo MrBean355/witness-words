@@ -40,11 +40,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
             val letters = letter_input.getLetters()
             if (letters.length == 9) {
+                toggleResults(visible = false)
                 viewModel.onGoClicked(letters)
             } else {
                 Snackbar.make(it, R.string.error_missing_letters, Snackbar.LENGTH_LONG).show()
             }
         }
+        show.setOnClickListener {
+            toggleResults(visible = true)
+        }
+    }
+
+    private fun toggleResults(visible: Boolean) {
+        results.isVisible = visible
+        show.isVisible = !visible
     }
 }
 
