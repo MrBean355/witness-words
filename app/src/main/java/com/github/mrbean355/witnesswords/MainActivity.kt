@@ -3,8 +3,10 @@ package com.github.mrbean355.witnesswords
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,6 +34,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         go.setOnClickListener {
+            getSystemService<InputMethodManager>()
+                    ?.hideSoftInputFromWindow(it.windowToken, 0)
+
             val letters = letter_input.getLetters()
             if (letters.length == 9) {
                 viewModel.onGoClicked(letters)

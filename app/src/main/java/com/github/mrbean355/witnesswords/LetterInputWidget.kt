@@ -25,6 +25,7 @@ class LetterInputWidget @JvmOverloads constructor(
                 .filter { it.isLetter() }
                 .take(9)
                 .toString()
+                .toLowerCase()
     }
 
     private fun updateFields() {

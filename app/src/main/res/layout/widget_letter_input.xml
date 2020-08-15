@@ -12,9 +12,7 @@
         android:layout_height="0dp"
         android:background="@null"
         android:cursorVisible="false"
-        android:digits="abcdefghijklmnopqrstuvwxyz"
-        android:inputType="textVisiblePassword"
-        android:maxLength="9"
+        android:inputType="textVisiblePassword|textCapCharacters"
         android:textSize="0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
