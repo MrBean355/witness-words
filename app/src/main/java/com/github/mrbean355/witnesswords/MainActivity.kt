@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             if (letters.length == 9) {
                 viewModel.onGoClicked(getLetters())
             } else {
-                Snackbar.make(it, "Please enter all 9 letters", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(it, R.string.error_missing_letters, Snackbar.LENGTH_LONG).show()
             }
         }
     }
