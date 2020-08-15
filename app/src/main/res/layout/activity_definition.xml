@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorAccent"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
+        android:paddingHorizontal="@dimen/padding_default"
+        android:paddingVertical="@dimen/padding_small"
         tools:text="A word" />
 
     <androidx.recyclerview.widget.RecyclerView
