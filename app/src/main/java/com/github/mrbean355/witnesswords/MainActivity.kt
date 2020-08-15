@@ -3,7 +3,6 @@ package com.github.mrbean355.witnesswords
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -33,29 +32,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         go.setOnClickListener {
-            val letters = getLetters()
+            val letters = letter_input.getLetters()
             if (letters.length == 9) {
-                viewModel.onGoClicked(getLetters())
+                viewModel.onGoClicked(letters)
             } else {
                 Snackbar.make(it, R.string.error_missing_letters, Snackbar.LENGTH_LONG).show()
             }
         }
-    }
-
-    private fun getLetters(): String {
-        return letter_1.firstOrEmpty() +
-                letter_2.firstOrEmpty() +
-                letter_3.firstOrEmpty() +
-                letter_4.firstOrEmpty() +
-                letter_5.firstOrEmpty() +
-                letter_6.firstOrEmpty() +
-                letter_7.firstOrEmpty() +
-                letter_8.firstOrEmpty() +
-                letter_9.firstOrEmpty()
-    }
-
-    private fun EditText.firstOrEmpty(): String {
-        return text.toString().firstOrNull()?.toLowerCase()?.toString() ?: ""
     }
 }
 
