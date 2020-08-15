@@ -10,16 +10,7 @@ class DefinitionViewModel : ViewModel() {
 
     fun initialise(word: String) {
         viewModelScope.launch {
-
             definitions.value = getDefinitions(word)
-
-//            val indexWords = dictionary.lookupAllIndexWords(word).indexWordArray
-//            definitions.postValue(indexWords.map { indexWord ->
-//                Definition(
-//                        type = indexWord.pos.label,
-//                        detail = indexWord.senses.joinToString("\n\n") { it.gloss }
-//                )
-//            })
         }
     }
 }
