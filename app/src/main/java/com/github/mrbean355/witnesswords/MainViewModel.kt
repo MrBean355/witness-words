@@ -6,15 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    val ready = MutableLiveData<Boolean>(false)
+    val ready = MutableLiveData<Boolean>(true)
     val results = MutableLiveData<List<String>>()
-
-    fun initialise() {
-        viewModelScope.launch {
-            loadWords()
-            ready.value = true
-        }
-    }
 
     fun onGoClicked(input: String) {
         ready.value = false

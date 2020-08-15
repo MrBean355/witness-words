@@ -1,5 +1,7 @@
 package com.github.mrbean355.witnesswords
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.viewModels
@@ -22,7 +24,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         results.adapter = adapter
         results.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        viewModel.initialise()
         viewModel.ready.observe(this) {
             progress_bar.isVisible = !it
             go.isEnabled = it
@@ -56,4 +57,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun EditText.firstOrEmpty(): String {
         return text.toString().firstOrNull()?.toLowerCase()?.toString() ?: ""
     }
+}
+
+@Suppress("FunctionName")
+fun MainActivity(context: Context): Intent {
+    return Intent(context, MainActivity::class.java)
 }
