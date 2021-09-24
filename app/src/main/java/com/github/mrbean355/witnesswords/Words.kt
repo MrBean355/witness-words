@@ -38,7 +38,7 @@ suspend fun searchWords(input: String): List<String> = withContext(IO) {
             }
             .sorted()
             .map {
-                if (it.length == 9) it.toUpperCase() else it
+                if (it.length == 9) it.uppercase() else it
             }
             .toList()
 }

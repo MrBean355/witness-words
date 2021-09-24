@@ -8,10 +8,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.go
+import kotlinx.android.synthetic.main.activity_main.letter_input
+import kotlinx.android.synthetic.main.activity_main.progress_bar
+import kotlinx.android.synthetic.main.activity_main.result_count
+import kotlinx.android.synthetic.main.activity_main.results
+import kotlinx.android.synthetic.main.activity_main.show
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel by viewModels<MainViewModel>()

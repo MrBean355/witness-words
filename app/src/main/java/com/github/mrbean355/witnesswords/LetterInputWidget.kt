@@ -4,7 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.widget.doAfterTextChanged
-import kotlinx.android.synthetic.main.widget_letter_input.view.*
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_1
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_2
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_3
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_4
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_5
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_6
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_7
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_8
+import kotlinx.android.synthetic.main.widget_letter_input.view.letter_9
+import kotlinx.android.synthetic.main.widget_letter_input.view.secret_input
 
 class LetterInputWidget @JvmOverloads constructor(
         context: Context,
@@ -22,10 +31,10 @@ class LetterInputWidget @JvmOverloads constructor(
 
     fun getLetters(): String {
         return secret_input.text
-                .filter { it.isLetter() }
-                .take(9)
-                .toString()
-                .toLowerCase()
+            .filter { it.isLetter() }
+            .take(9)
+            .toString()
+            .lowercase()
     }
 
     private fun updateFields() {

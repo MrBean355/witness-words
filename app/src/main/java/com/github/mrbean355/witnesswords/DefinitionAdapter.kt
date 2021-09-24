@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_definition.view.*
+import kotlinx.android.synthetic.main.item_definition.view.definition_detail
+import kotlinx.android.synthetic.main.item_definition.view.definition_type
 
 class Definition(
         val type: String,
@@ -23,7 +24,7 @@ class DefinitionAdapter : ListAdapter<Definition, DefinitionAdapter.ViewHolder>(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.type.text = item.type.toUpperCase()
+        holder.type.text = item.type.uppercase()
         holder.detail.text = item.detail
     }
 

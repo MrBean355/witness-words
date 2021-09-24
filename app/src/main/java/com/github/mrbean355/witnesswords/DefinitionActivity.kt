@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-import kotlinx.android.synthetic.main.activity_definition.*
+import kotlinx.android.synthetic.main.activity_definition.definitions
+import kotlinx.android.synthetic.main.activity_definition.word_heading
 
 private const val KEY_WORD = "WORD"
 
@@ -48,5 +48,5 @@ class DefinitionActivity : AppCompatActivity(R.layout.activity_definition) {
 @Suppress("FunctionName")
 fun DefinitionActivity(context: Context, word: String): Intent {
     return Intent(context, DefinitionActivity::class.java)
-            .putExtra(KEY_WORD, word)
+        .putExtra(KEY_WORD, word)
 }
