@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_word.view.*
+import kotlinx.android.synthetic.main.item_word.view.word
 
 class WordAdapter(
-        private val onWordClicked: (String) -> Unit
+    private val onWordClicked: (String) -> Unit
 ) : ListAdapter<String, WordAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

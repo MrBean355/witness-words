@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         go.setOnClickListener {
             getSystemService<InputMethodManager>()
-                    ?.hideSoftInputFromWindow(it.windowToken, 0)
+                ?.hideSoftInputFromWindow(it.windowToken, 0)
 
             val letters = letter_input.getLetters()
             if (letters.length == 9) {

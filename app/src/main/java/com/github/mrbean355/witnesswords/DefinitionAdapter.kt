@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.item_definition.view.definition_detail
 import kotlinx.android.synthetic.main.item_definition.view.definition_type
 
 class Definition(
-        val type: String,
-        val detail: String
+    val type: String,
+    val detail: String
 )
 
 class DefinitionAdapter : ListAdapter<Definition, DefinitionAdapter.ViewHolder>(DiffCallback()) {

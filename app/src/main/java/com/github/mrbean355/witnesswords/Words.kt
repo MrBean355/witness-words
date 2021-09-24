@@ -11,9 +11,9 @@ val dictionary: Dictionary by lazy {
 
 private val words: Collection<String> by lazy {
     POS.getAllPOS()
-            .flatMap { dictionary.getIndexWordIterator(it).asSequence().toList() }
-            .map { it.lemma }
-            .distinct()
+        .flatMap { dictionary.getIndexWordIterator(it).asSequence().toList() }
+        .map { it.lemma }
+        .distinct()
 }
 
 suspend fun loadWords(): Unit = withContext(IO) {
@@ -24,30 +24,30 @@ suspend fun loadWords(): Unit = withContext(IO) {
 suspend fun searchWords(input: String): List<String> = withContext(IO) {
     val counts = input.countChars()
     words.asSequence()
-            .filter { it.length >= 4 }
-            .filter { word -> word.all { it in input } }
-            .filter { it.contains(input.first()) }
-            .filter { word ->
-                val wc = word.countChars()
-                for (entry in wc) {
-                    if (entry.value > counts.getValue(entry.key)) {
-                        return@filter false
-                    }
+        .filter { it.length >= 4 }
+        .filter { word -> word.all { it in input } }
+        .filter { it.contains(input.first()) }
+        .filter { word ->
+            val wc = word.countChars()
+            for (entry in wc) {
+                if (entry.value > counts.getValue(entry.key)) {
+                    return@filter false
                 }
-                true
             }
-            .sorted()
-            .map {
-                if (it.length == 9) it.uppercase() else it
-            }
-            .toList()
+            true
+        }
+        .sorted()
+        .map {
+            if (it.length == 9) it.uppercase() else it
+        }
+        .toList()
 }
 
 suspend fun getDefinitions(word: String): List<Definition> = withContext(IO) {
     dictionary.lookupAllIndexWords(word).indexWordArray.map { indexWord ->
         Definition(
-                type = indexWord.pos.label,
-                detail = indexWord.senses.joinToString("\n\n") { it.gloss }
+            type = indexWord.pos.label,
+            detail = indexWord.senses.joinToString("\n\n") { it.gloss }
         )
     }
 }

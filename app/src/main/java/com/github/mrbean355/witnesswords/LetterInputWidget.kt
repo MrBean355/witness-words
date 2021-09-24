@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.widget_letter_input.view.letter_9
 import kotlinx.android.synthetic.main.widget_letter_input.view.secret_input
 
 class LetterInputWidget @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     init {
