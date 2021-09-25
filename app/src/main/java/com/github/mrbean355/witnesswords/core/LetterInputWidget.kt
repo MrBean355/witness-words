@@ -1,4 +1,4 @@
-package com.github.mrbean355.witnesswords
+package com.github.mrbean355.witnesswords.core
 
 import android.content.Context
 import android.util.AttributeSet

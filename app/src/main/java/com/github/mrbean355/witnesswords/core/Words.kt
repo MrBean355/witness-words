@@ -1,5 +1,6 @@
-package com.github.mrbean355.witnesswords
+package com.github.mrbean355.witnesswords.core
 
+import com.github.mrbean355.witnesswords.definition.Definition
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import net.sf.extjwnl.data.POS

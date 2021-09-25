@@ -1,4 +1,4 @@
-package com.github.mrbean355.witnesswords
+package com.github.mrbean355.witnesswords.definition
 
 import android.content.Context
 import android.content.Intent

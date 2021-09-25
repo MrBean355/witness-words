@@ -3,6 +3,9 @@ package com.github.mrbean355.witnesswords
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.mrbean355.witnesswords.core.LETTER_COUNT
+import com.github.mrbean355.witnesswords.core.loadWords
+import com.github.mrbean355.witnesswords.core.searchWords
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {

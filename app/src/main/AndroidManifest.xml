@@ -19,7 +19,7 @@
         </activity>
 
         <activity
-            android:name=".DefinitionActivity"
+            android:name=".definition.DefinitionActivity"
             android:label="Definition" />
 
     </application>

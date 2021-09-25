@@ -9,6 +9,7 @@ import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.mrbean355.witnesswords.databinding.ActivityMainBinding
+import com.github.mrbean355.witnesswords.definition.DefinitionActivity
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
