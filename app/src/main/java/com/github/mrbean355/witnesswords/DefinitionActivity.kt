@@ -8,27 +8,28 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-import kotlinx.android.synthetic.main.activity_definition.definitions
-import kotlinx.android.synthetic.main.activity_definition.word_heading
+import com.github.mrbean355.witnesswords.databinding.ActivityDefinitionBinding
 
 private const val KEY_WORD = "WORD"
 
-class DefinitionActivity : AppCompatActivity(R.layout.activity_definition) {
+class DefinitionActivity : AppCompatActivity() {
     private val viewModel by viewModels<DefinitionViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityDefinitionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.let {
             it.setDisplayShowHomeEnabled(true)
             it.setDisplayHomeAsUpEnabled(true)
         }
 
         val word = intent.getStringExtra(KEY_WORD).orEmpty()
-        word_heading.text = word
+        binding.wordHeading.text = word
 
         val adapter = DefinitionAdapter()
-        definitions.adapter = adapter
-        definitions.addItemDecoration(DividerItemDecoration(this, VERTICAL))
+        binding.definitions.adapter = adapter
+        binding.definitions.addItemDecoration(DividerItemDecoration(this, VERTICAL))
 
         viewModel.initialise(word)
         viewModel.definitions.observe(this) {

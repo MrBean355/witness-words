@@ -5,6 +5,8 @@ import kotlinx.coroutines.withContext
 import net.sf.extjwnl.data.POS
 import net.sf.extjwnl.dictionary.Dictionary
 
+const val LETTER_COUNT = 9
+
 val dictionary: Dictionary by lazy {
     Dictionary.getDefaultResourceInstance()
 }
@@ -37,9 +39,6 @@ suspend fun searchWords(input: String): List<String> = withContext(IO) {
             true
         }
         .sorted()
-        .map {
-            if (it.length == 9) it.uppercase() else it
-        }
         .toList()
 }
 

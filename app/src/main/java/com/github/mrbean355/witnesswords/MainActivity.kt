@@ -1,67 +1,55 @@
 package com.github.mrbean355.witnesswords
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.go
-import kotlinx.android.synthetic.main.activity_main.letter_input
-import kotlinx.android.synthetic.main.activity_main.progress_bar
-import kotlinx.android.synthetic.main.activity_main.result_count
-import kotlinx.android.synthetic.main.activity_main.results
-import kotlinx.android.synthetic.main.activity_main.show
+import com.github.mrbean355.witnesswords.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.letterInput.onTextInput = viewModel::onLettersChanged
+        binding.showButton.setOnClickListener {
+            viewModel.onShowClicked()
+        }
 
         val adapter = WordAdapter {
             startActivity(DefinitionActivity(this, it))
         }
-        results.adapter = adapter
-        results.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        binding.resultsList.adapter = adapter
+        binding.resultsList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        viewModel.ready.observe(this) {
-            progress_bar.isVisible = !it
-            go.isEnabled = it
+        viewModel.loading.observe(this) {
+            binding.progressIndicator.isInvisible = !it
         }
-        viewModel.results.observe(this) {
-            result_count.text = resources.getQuantityString(R.plurals.result_count, it.size, it.size)
-            adapter.submitList(it)
+        viewModel.showButtonVisible.observe(this) {
+            binding.showButton.isInvisible = !it
         }
-
-        go.setOnClickListener {
-            getSystemService<InputMethodManager>()
-                ?.hideSoftInputFromWindow(it.windowToken, 0)
-
-            val letters = letter_input.getLetters()
-            if (letters.length == 9) {
-                toggleResults(visible = false)
-                viewModel.onGoClicked(letters)
+        viewModel.resultCount.observe(this) { count ->
+            if (count != null) {
+                binding.resultCount.text = resources.getQuantityString(R.plurals.result_count, count, count)
+                hideKeyboard(binding.root)
             } else {
-                Snackbar.make(it, R.string.error_missing_letters, Snackbar.LENGTH_LONG).show()
+                binding.resultCount.text = ""
             }
         }
-        show.setOnClickListener {
-            toggleResults(visible = true)
+        viewModel.publishedResults.observe(this) { results ->
+            adapter.submitList(results)
         }
     }
 
-    private fun toggleResults(visible: Boolean) {
-        results.isVisible = visible
-        show.isVisible = !visible
+    private fun hideKeyboard(view: View) {
+        getSystemService<InputMethodManager>()
+            ?.hideSoftInputFromWindow(view.windowToken, 0)
     }
-}
-
-@Suppress("FunctionName")
-fun MainActivity(context: Context): Intent {
-    return Intent(context, MainActivity::class.java)
 }

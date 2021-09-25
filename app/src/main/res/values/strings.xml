@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">Witness Words</string>
 
-    <!-- Splash -->
-    <string name="loading_words">Loading words…</string>
-
-    <!-- Main -->
-    <string name="action_go">Go!</string>
     <string name="action_show">Show</string>
-    <string name="error_missing_letters">Please enter all 9 letters</string>
 
     <plurals name="result_count">
-        <item quantity="one">Found %d word</item>
-        <item quantity="other">Found %d words</item>
+        <item quantity="one">Found %d word!</item>
+        <item quantity="other">Found %d words!</item>
     </plurals>
 </resources>

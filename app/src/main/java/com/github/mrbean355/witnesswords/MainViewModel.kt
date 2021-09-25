@@ -6,14 +6,43 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    val ready = MutableLiveData<Boolean>(true)
-    val results = MutableLiveData<List<String>>()
+    private var results = listOf<String>()
 
-    fun onGoClicked(input: String) {
-        ready.value = false
+    val loading = MutableLiveData(false)
+    val showButtonVisible = MutableLiveData(false)
+    val resultCount = MutableLiveData<Int?>(null)
+    val publishedResults = MutableLiveData<List<String>>()
+
+    init {
         viewModelScope.launch {
-            results.value = searchWords(input)
-            ready.value = true
+            loadWords()
+        }
+    }
+
+    fun onLettersChanged(letters: String) {
+        if (letters.length >= LETTER_COUNT) {
+            findWords(letters)
+        } else {
+            showButtonVisible.value = false
+            resultCount.value = null
+            publishedResults.value = emptyList()
+        }
+    }
+
+    fun onShowClicked() {
+        showButtonVisible.value = false
+        publishedResults.value = results
+    }
+
+    private fun findWords(letters: String) {
+        loading.value = true
+        viewModelScope.launch {
+            showButtonVisible.value = true
+            searchWords(letters).let {
+                results = it
+                resultCount.value = it.size
+            }
+            loading.value = false
         }
     }
 }
