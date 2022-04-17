@@ -22,8 +22,7 @@
 
         <activity
             android:name=".definition.DefinitionActivity"
-            android:exported="false"
-            android:label="Definition" />
+            android:exported="false" />
 
     </application>
 
