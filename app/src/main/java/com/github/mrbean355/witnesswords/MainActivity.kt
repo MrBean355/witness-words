@@ -1,56 +1,104 @@
 package com.github.mrbean355.witnesswords
 
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
-import androidx.core.view.isInvisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import com.github.mrbean355.witnesswords.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
+import androidx.compose.material.Divider
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.mrbean355.witnesswords.core.LetterInputWidget
+import com.github.mrbean355.witnesswords.core.WordItem
 import com.github.mrbean355.witnesswords.definition.DefinitionActivity
+import com.github.mrbean355.witnesswords.theme.WitnessWordsTheme
 
-class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.letterInput.onTextInput = viewModel::onLettersChanged
-        binding.showButton.setOnClickListener {
-            viewModel.onShowClicked()
-        }
-
-        val adapter = WordAdapter {
-            startActivity(DefinitionActivity(this, it))
-        }
-        binding.resultsList.adapter = adapter
-        binding.resultsList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
-        viewModel.loading.observe(this) {
-            binding.progressIndicator.isInvisible = !it
-        }
-        viewModel.showButtonVisible.observe(this) {
-            binding.showButton.isInvisible = !it
-        }
-        viewModel.resultCount.observe(this) { count ->
-            if (count != null) {
-                binding.resultCount.text = resources.getQuantityString(R.plurals.result_count, count, count)
-                hideKeyboard(binding.root)
-            } else {
-                binding.resultCount.text = ""
+        setContent {
+            WitnessWordsTheme {
+                Scaffold(
+                    topBar = { TopAppBar(title = { Text(text = stringResource(R.string.app_name)) }) }
+                ) {
+                    HomeScreen()
+                }
             }
         }
-        viewModel.publishedResults.observe(this) { results ->
-            adapter.submitList(results)
-        }
     }
+}
 
-    private fun hideKeyboard(view: View) {
-        getSystemService<InputMethodManager>()
-            ?.hideSoftInputFromWindow(view.windowToken, 0)
+@Composable
+fun HomeScreen(
+    viewModel: MainViewModel = viewModel()
+) {
+    val loading by viewModel.loading.collectAsState(false)
+    val resultSummary by viewModel.resultCount.collectAsState()
+    val showButtonVisible by viewModel.showButtonVisible.collectAsState(false)
+    val results by viewModel.publishedResults.collectAsState(emptyList())
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        AndroidView(
+            factory = {
+                LetterInputWidget(it).apply {
+                    onTextInput = viewModel::onLettersChanged
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+        )
+        if (loading) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = resultSummary,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+            if (showButtonVisible) {
+                Button(
+                    onClick = viewModel::onShowClicked,
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                ) {
+                    Text(text = stringResource(R.string.action_show))
+                }
+            }
+        }
+        val context = LocalContext.current
+        LazyColumn {
+            items(results) { word ->
+                WordItem(
+                    text = word,
+                    onClick = { context.startActivity(DefinitionActivity(context, word)) }
+                )
+                Divider()
+            }
+        }
     }
 }
