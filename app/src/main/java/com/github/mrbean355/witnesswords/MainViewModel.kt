@@ -53,8 +53,8 @@ class MainViewModel(
     private fun findWords(letters: String) {
         _loading.value = true
         viewModelScope.launch {
-            _showButtonVisible.value = true
             searchWords(letters).let {
+                _showButtonVisible.value = it.isNotEmpty()
                 results = it
                 _resultCount.value = getApplication<Application>().resources
                     .getQuantityString(R.plurals.result_count, it.size, it.size)
