@@ -16,7 +16,7 @@ fun WitnessWordsTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun StatusBar() {
+private fun StatusBar() {
     val controller = rememberSystemUiController()
     val colour = MaterialTheme.colors.primaryVariant
 

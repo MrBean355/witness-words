@@ -37,6 +37,6 @@ fun WordItem(
     backgroundColor = 0xFFF
 )
 @Composable
-fun WordItemPreview() {
+private fun WordItemPreview() {
     WordItem(text = "Hello world", onClick = {})
 }
