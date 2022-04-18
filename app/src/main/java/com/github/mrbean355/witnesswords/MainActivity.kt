@@ -24,9 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.github.mrbean355.witnesswords.core.LetterInputWidget
+import com.github.mrbean355.witnesswords.core.LetterInput
 import com.github.mrbean355.witnesswords.core.WordItem
 import com.github.mrbean355.witnesswords.definition.DefinitionActivity
 import com.github.mrbean355.witnesswords.theme.WitnessWordsTheme
@@ -51,23 +50,20 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen(
     viewModel: MainViewModel = viewModel()
 ) {
+    val letters by viewModel.letters.collectAsState()
     val loading by viewModel.loading.collectAsState(false)
     val resultSummary by viewModel.resultCount.collectAsState()
     val showButtonVisible by viewModel.showButtonVisible.collectAsState(false)
     val results by viewModel.publishedResults.collectAsState(emptyList())
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(top = 16.dp)
     ) {
-        AndroidView(
-            factory = {
-                LetterInputWidget(it).apply {
-                    onTextInput = viewModel::onLettersChanged
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+        LetterInput(
+            letters = letters,
+            onLettersChange = viewModel::onLettersChanged,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         if (loading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())

@@ -16,11 +16,13 @@ class MainViewModel(
 ) : AndroidViewModel(application) {
 
     private var results = listOf<String>()
+    private val _letters = MutableStateFlow("")
     private val _loading = MutableStateFlow(false)
     private val _showButtonVisible = MutableStateFlow(false)
     private val _resultCount = MutableStateFlow("")
     private val _publishedResults = MutableStateFlow<List<String>>(emptyList())
 
+    val letters: StateFlow<String> = _letters.asStateFlow()
     val loading: StateFlow<Boolean> = _loading.asStateFlow()
     val showButtonVisible: StateFlow<Boolean> = _showButtonVisible.asStateFlow()
     val resultCount: StateFlow<String> = _resultCount.asStateFlow()
@@ -32,9 +34,10 @@ class MainViewModel(
         }
     }
 
-    fun onLettersChanged(letters: String) {
-        if (letters.length >= LETTER_COUNT) {
-            findWords(letters)
+    fun onLettersChanged(newLetters: String) {
+        _letters.value = newLetters
+        if (newLetters.length >= LETTER_COUNT) {
+            findWords(newLetters.lowercase())
         } else {
             _showButtonVisible.value = false
             _resultCount.value = ""

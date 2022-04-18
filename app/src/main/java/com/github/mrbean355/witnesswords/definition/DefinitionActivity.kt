@@ -3,8 +3,8 @@ package com.github.mrbean355.witnesswords.definition
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +29,7 @@ import com.github.mrbean355.witnesswords.theme.WitnessWordsTheme
 
 private const val KEY_WORD = "WORD"
 
-class DefinitionActivity : AppCompatActivity() {
+class DefinitionActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
