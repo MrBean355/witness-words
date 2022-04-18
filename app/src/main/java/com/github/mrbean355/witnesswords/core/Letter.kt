@@ -14,12 +14,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Letter(
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    big: Boolean = false
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.body1,
-        fontSize = 22.sp,
+        fontSize = if (big) 32.sp else 22.sp,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)

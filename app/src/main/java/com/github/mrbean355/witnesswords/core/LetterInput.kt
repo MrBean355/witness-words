@@ -49,6 +49,7 @@ fun LetterInput(
             ) {
                 Letter(
                     text = letters.at(0),
+                    big = true,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
