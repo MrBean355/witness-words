@@ -41,9 +41,7 @@ class MainViewModel(
         if (newLetters.length >= LETTER_COUNT) {
             findWords(newLetters.lowercase())
         } else {
-            _showButtonVisible.value = false
-            _resultCount.value = ""
-            _publishedResults.value = emptyList()
+            reset()
         }
     }
 
@@ -68,11 +66,19 @@ class MainViewModel(
     fun onRandomClicked() {
         viewModelScope.launch {
             _loading.value = true
+            reset()
             onLettersChanged(getRandomWord().uppercase().shuffled())
         }
     }
 
     fun onClearClicked() {
-        onLettersChanged("")
+        _letters.value = ""
+        reset()
+    }
+
+    private fun reset() {
+        _showButtonVisible.value = false
+        _resultCount.value = ""
+        _publishedResults.value = emptyList()
     }
 }
