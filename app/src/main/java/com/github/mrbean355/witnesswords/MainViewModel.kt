@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mrbean355.witnesswords.core.LETTER_COUNT
+import com.github.mrbean355.witnesswords.core.getRandomWord
 import com.github.mrbean355.witnesswords.core.loadWords
 import com.github.mrbean355.witnesswords.core.searchWords
+import com.github.mrbean355.witnesswords.core.shuffled
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,5 +63,16 @@ class MainViewModel(
             }
             _loading.value = false
         }
+    }
+
+    fun onRandomClicked() {
+        viewModelScope.launch {
+            _loading.value = true
+            onLettersChanged(getRandomWord().uppercase().shuffled())
+        }
+    }
+
+    fun onClearClicked() {
+        onLettersChanged("")
     }
 }

@@ -43,6 +43,13 @@ suspend fun searchWords(input: String): List<String> = withContext(IO) {
         .toList()
 }
 
+suspend fun getRandomWord(): String = withContext(IO) {
+    var word: String
+    do word = dictionary.getRandomIndexWord(POS.NOUN).lemma
+    while (word.length != LETTER_COUNT || !word.all(Char::isLetter))
+    word
+}
+
 suspend fun getDefinitions(word: String): List<Definition> = withContext(IO) {
     dictionary.lookupAllIndexWords(word).indexWordArray.map { indexWord ->
         Definition(
@@ -50,8 +57,4 @@ suspend fun getDefinitions(word: String): List<Definition> = withContext(IO) {
             detail = indexWord.senses.joinToString("\n\n") { it.gloss }
         )
     }
-}
-
-private fun String.countChars(): Map<Char, Int> {
-    return associateWith { ch -> count { ch == it } }
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -57,9 +58,26 @@ fun HomeScreen(
     val results by viewModel.publishedResults.collectAsState(emptyList())
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(top = 16.dp)
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            Button(
+                onClick = viewModel::onRandomClicked,
+            ) {
+                Text(text = stringResource(R.string.action_random))
+            }
+            OutlinedButton(
+                onClick = viewModel::onClearClicked,
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+                Text(text = stringResource(R.string.action_clear))
+            }
+        }
         LetterInput(
             letters = letters,
             onLettersChange = viewModel::onLettersChanged,
@@ -68,22 +86,16 @@ fun HomeScreen(
         if (loading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = resultSummary,
-                modifier = Modifier.align(Alignment.CenterStart)
-            )
-            if (showButtonVisible) {
-                Button(
-                    onClick = viewModel::onShowClicked,
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                ) {
-                    Text(text = stringResource(R.string.action_show))
-                }
+        Text(
+            text = resultSummary,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        if (showButtonVisible) {
+            Button(
+                onClick = viewModel::onShowClicked,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.action_show))
             }
         }
         val context = LocalContext.current

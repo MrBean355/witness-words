@@ -2,6 +2,8 @@
     <string name="app_name">Witness Words</string>
     <string name="back_button_description">Back button</string>
 
+    <string name="action_random">Random</string>
+    <string name="action_clear">Clear</string>
     <string name="action_show">Show</string>
 
     <plurals name="result_count">
